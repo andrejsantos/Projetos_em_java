@@ -6,18 +6,23 @@ package com.mycompany.aula2;
 
 import javax.swing.JOptionPane;
 
+import javax.swing.*;
+import java.sql.*;
 /**
  *
  * @author Dré
  */
 public class Principal extends javax.swing.JFrame {
+    public Connection conn = null;
+    public Statement stmt;
+    public ResultSet rs;
 
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
-        abas.setEnabledAt(1, false);
+           abas.setEnabledAt(1, false);
     }
 
     /**
@@ -38,13 +43,13 @@ public class Principal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         bntlogar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtSigla = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtDesc = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -94,21 +99,21 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(102, 102, 255));
         jPanel2.setLayout(null);
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtSigla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtSiglaActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField1);
-        jTextField1.setBounds(210, 80, 310, 20);
+        jPanel2.add(txtSigla);
+        txtSigla.setBounds(210, 80, 310, 20);
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtNomeActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextField2);
-        jTextField2.setBounds(210, 120, 310, 20);
+        jPanel2.add(txtNome);
+        txtNome.setBounds(210, 120, 310, 20);
 
         jLabel1.setText("Dercrição");
         jPanel2.add(jLabel1);
@@ -122,9 +127,9 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.add(jLabel5);
         jLabel5.setBounds(140, 120, 37, 16);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtDesc.setColumns(20);
+        txtDesc.setRows(5);
+        jScrollPane1.setViewportView(txtDesc);
 
         jPanel2.add(jScrollPane1);
         jScrollPane1.setBounds(210, 170, 310, 120);
@@ -180,6 +185,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void bntlogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntlogarActionPerformed
         // TODO add your handling code here:
+        
         String senha = new String(txtsenha.getPassword());
         if(txtlogin.getText().equals("adm") && senha.equals("123")){
             abas.setEnabledAt(1, true);
@@ -188,19 +194,44 @@ public class Principal extends javax.swing.JFrame {
         else{JOptionPane.showMessageDialog(null, "Dados incorretos", "mensagem", JOptionPane.INFORMATION_MESSAGE);}
     }//GEN-LAST:event_bntlogarActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtSiglaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSiglaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtSiglaActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtNomeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/dbaula4",
+                    "root", "123");
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            String sql = "INSERT INTO cursoVALUES(‘"
+                    + txtSigla.getText() + "','"
+                    + txtNome.getText() + "','"
+                    + txtDesc.getText() + "')";
+            JOptionPane.showMessageDialog(null, sql);
+            int i = 0;
+            i = stmt.executeUpdate(sql);//executando o comando sql
+            stmt.close();
+            if (i > 0) {
+                JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso!");
+                abreTabela();
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+}//executando o comando sql
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -265,9 +296,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextArea txtDesc;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtSigla;
     private javax.swing.JTextField txtlogin;
     private javax.swing.JPasswordField txtsenha;
     // End of variables declaration//GEN-END:variables
