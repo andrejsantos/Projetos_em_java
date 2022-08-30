@@ -58,6 +58,15 @@ public class Principal extends javax.swing.JFrame {
 
         abas.setBackground(new java.awt.Color(0, 0, 0));
         abas.setForeground(new java.awt.Color(255, 255, 255));
+        abas.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                abasAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 255));
         jPanel1.setLayout(null);
@@ -243,6 +252,10 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtloginActionPerformed
 
+    private void abasAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_abasAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_abasAncestorAdded
+
     /**
      * @param args the command line arguments
      */
@@ -282,7 +295,7 @@ public class Principal extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane abas;
+    public javax.swing.JTabbedPane abas;
     private javax.swing.JButton bntlogar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
